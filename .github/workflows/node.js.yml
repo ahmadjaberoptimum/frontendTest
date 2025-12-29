@@ -13,9 +13,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Build docker image (frontend)
-        working-directory: ./server/forntend/frontendtest
+        working-directory: ./server/forntend/frontendTest
         run: docker buildx build . -t frontendimage --load
 
       - name: Run compose service (frontend)
