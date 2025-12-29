@@ -33,6 +33,7 @@
     ]
   },
   "devDependencies": {
+    "typescript": "^4.9.5",
     "yaml": "^2.8.2"
   }
 }
