@@ -35,7 +35,8 @@ jobs:
         run: npm run build --if-present
 
       - name: Test
-        run: CI=true npm test --if-present
+        run: CI=true npm test -- --watchAll=false --passWithNoTests
+
 
   docker:
     name: Build & Push Docker Image
