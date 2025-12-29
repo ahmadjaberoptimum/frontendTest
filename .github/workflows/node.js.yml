@@ -1,4 +1,4 @@
-name: Frontend CI & Docker
+name: Test Frontend CI & Docker
 
 on:
   push:
