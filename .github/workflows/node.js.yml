@@ -1,27 +1,20 @@
-name: Build & Run Frontend On Host
+name: Build Frontend From Host Path
 
 on:
   push:
     branches: ["master"]
-  pull_request:
-    branches: ["master"]
 
 jobs:
   frontend:
-    name: Build & Run Frontend
     runs-on: self-hosted
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
-      - name: Build docker image (frontend) locally on host
-        working-directory: ./server/frontend/frontendTest
-        run: docker buildx build . -t frontendimage:latest --load
+      - name: Build docker image (frontend) from host folder
+        run: docker buildx build "/home/ahmad-jaber/server/frontend/frontendTest" -t frontendimage:latest --load
 
-      - name: Run only frontend service via compose
+      - name: Run compose service (frontend)
         working-directory: ./server
         run: docker compose up -d frontend
