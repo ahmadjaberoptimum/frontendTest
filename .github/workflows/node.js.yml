@@ -14,7 +14,5 @@ jobs:
 
       - name: Build docker image (frontend) from host folder
         run: docker buildx build "/home/ahmad-jaber/server/frontend/frontendTest" -t frontendimage:latest --load
-
-      - name: Run compose service (frontend)
-        working-directory: ./server
-        run: docker compose up -d frontend
+      - name: Run frontend service
+        run: docker compose -f "/home/ahmad-jaber/server/docker-compose.yml" up -d frontend
