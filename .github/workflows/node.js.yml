@@ -1,4 +1,4 @@
-name: Build Docker Image In Host
+name: Build & Run Frontend On Host
 
 on:
   push:
@@ -7,17 +7,21 @@ on:
     branches: ["master"]
 
 jobs:
-  build:
-    name: Access Docker File In Host
-    runs-on: ubuntu-latest
+  frontend:
+    name: Build & Run Frontend
+    runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Build docker image (frontend)
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build docker image (frontend) locally on host
         working-directory: ./server/frontend/frontendTest
-        run: docker buildx build . -t frontendimage --load
+        run: docker buildx build . -t frontendimage:latest --load
 
-      - name: Run compose service (frontend)
+      - name: Run only frontend service via compose
         working-directory: ./server
         run: docker compose up -d frontend
