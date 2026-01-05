@@ -53,6 +53,6 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:${{ steps.vars.outputs.SHA_TAG }}
       - name: Compose Down And Remove old Images
         run: docker compose -f ../docker-compose.yaml down --rmi all
-      - name: Run Docker Compose
+      - name: Run Docker FrontEnd Service only Compose
         run: docker compose -f "/home/ahmad-jaber/server/docker-compose.yaml" up -d --no-deps frontend
         
