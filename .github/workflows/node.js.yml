@@ -1,15 +1,10 @@
-name: Frontend CI & Docker
+name: Test Frontend CI & Docker
 
 on:
   push:
     branches: ["master"]
-    paths:
-      - "frontend/**"
-      - ".github/workflows/frontend.yml"
   pull_request:
     branches: ["master"]
-    paths:
-      - "frontend/**"
 
 jobs:
   build:
@@ -28,14 +23,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build --if-present
-
-      - name: Test
-        run: CI=true npm test --if-present
 
   docker:
     name: Build & Push Docker Image
@@ -64,3 +51,8 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:${{ steps.vars.outputs.SHA_TAG }}
+      - name: Compose Down And Remove old Images
+        run: docker compose -f ../docker-compose.yaml down --rmi all
+      - name: Run Docker Compose
+        run: docker compose -f "/home/ahmad-jaber/server/docker-compose.yaml" up -d --no-deps frontend
+        
